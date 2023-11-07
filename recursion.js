@@ -23,7 +23,7 @@ function longest(words) {
    * compare length of first element and slice rest into another recursive call
    *
    */
-  if(words.length === 0) return 0;
+  if (words.length === 0) return 0;
 
 
   return Math.max(words[0].length, longest(words.slice(1)));
@@ -40,22 +40,56 @@ function everyOther(str) {
 
 }
 
+/*
+  if arr.length === 0, return false
+  arr[0] === val, return true, find(arr.slice(1))
+*/
 /** find: return boolean depending on if val exists in array or not. */
 
 function find(arr, val) {
-
+  if (arr.length === 0) return false;
+  if (arr[0] === val) {
+    return true;
+  }
+  return find(arr.slice(1), val);
 }
+
+/* base case if str.length <= 1, return true
+  ""
+  "o"
+  "coc"
+  "acoca"
+  "tacocat"
+
+  ""
+  "oo"
+  "cooc"
+  "acooca"
+  "tacoocat"
+*/
 
 /** isPalindrome: checks whether a string is a palindrome or not. */
 
 function isPalindrome(str) {
+  if (str.length <= 1) return true;
 
+  if (str[0] === str[str.length - 1]) {
+    return isPalindrome(str.slice(1, -1));
+  }
+
+  return false;
 }
+
+/* if str.length === 1 return str
+    reversed = str[-1] + revString()
+*/
 
 /** revString: return a copy of a string, but in reverse. */
 
 function revString(str) {
+  if (str.length <= 1) return str;
 
+  return str[str.length - 1] + revString(str.slice(0, -1));
 }
 
 /** findIndex: return the index of val in arr (or -1 if val is not present). */
