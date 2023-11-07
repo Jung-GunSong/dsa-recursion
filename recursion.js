@@ -94,15 +94,69 @@ function revString(str) {
 
 /** findIndex: return the index of val in arr (or -1 if val is not present). */
 
+/**
+ * base case: if empty array, return -1
+ *
+ * progression:
+ * if match, return 0
+ * else return 1 + findIndex(arr.slice(1))
+ *
+ * "porcupine"
+ * 1+1+1+1-1
+ *
+ */
 function findIndex(arr, val) {
 
+  if (arr.length === 0) return -1;
+
+  if (arr[0] === val) return 0;
+
+  if (findIndex(arr.slice(1), val) === -1){
+    return 0 + findIndex(arr.slice(1), val);
+  }
+
+    return 1 + findIndex(arr.slice(1), val);
 }
 
 /** gatherStrings: given an object, return an array of all of the string values. */
 
+/**
+ * requires iteration
+ * base case is when iteration is over
+ *
+ * progression: is this a obj or string?
+ * if obj, then run recurssive function
+ * if string, return string in an array with recursive function
+ * spread into new array
+ *
+ *
+ *
+ */
 function gatherStrings(obj) {
 
-}
+  for (let key in obj){
+    if (typeof obj[key] === "object") gatherStrings(obj[key]);
+
+    if(typeof obj[key] === "string"){
+      const currentString = obj[key];
+      delete obj[key];
+      return [currentString, ...gatherStrings(obj)]
+    };
+  };
+
+};
+  /**
+   * even if we gather all strings inside a nested obj
+   * we are not returning this array after we done looping through
+   * that nested obj
+   */
+
+  // const values = Object.values(obj);
+
+  // for (let value of values){
+
+  // }
+
 
 // FURTHER STUDY
 
