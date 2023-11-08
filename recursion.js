@@ -111,11 +111,11 @@ function findIndex(arr, val) {
 
   if (arr[0] === val) return 0;
 
-  if (findIndex(arr.slice(1), val) === -1){
+  if (findIndex(arr.slice(1), val) === -1) {
     return 0 + findIndex(arr.slice(1), val);
   }
 
-    return 1 + findIndex(arr.slice(1), val);
+  return 1 + findIndex(arr.slice(1), val);
 }
 
 /** gatherStrings: given an object, return an array of all of the string values. */
@@ -129,33 +129,62 @@ function findIndex(arr, val) {
  * if string, return string in an array with recursive function
  * spread into new array
  *
+ * {key: "string"} => ["string"]
+ *  loop over keys in obj, if obj[key] is string, return [obj[key]]
+ * {key: "string", key: "string"}
  *
  *
+ *  base case             exiting looping through the object -> []
+ *  progress base case    looping through the object
+ *  function calls itself
  */
 function gatherStrings(obj) {
+  let out = [];
 
-  for (let key in obj){
-    if (typeof obj[key] === "object") gatherStrings(obj[key]);
+  for (let key in obj) {
+    if (typeof obj[key] === "object") {
+      out = [...out, ...gatherStrings(obj[key])];
+    } else if (typeof obj[key] === "string") {
+      out.push(obj[key]);
+    }
+  }
 
-    if(typeof obj[key] === "string"){
-      const currentString = obj[key];
-      delete obj[key];
-      return [currentString, ...gatherStrings(obj)]
-    };
-  };
+  return out;
 
-};
-  /**
-   * even if we gather all strings inside a nested obj
-   * we are not returning this array after we done looping through
-   * that nested obj
-   */
-
-  // const values = Object.values(obj);
-
-  // for (let value of values){
-
+  // function _gatherStrings(obj) {
+  //   for(let key in obj) {
+  //     if (typeof obj[key] === "object") {
+  //       _gatherStrings(obj[key])
+  //     } else if (typeof obj[key] === "string") {
+  //       out.push(obj[key])
+  //     }
+  //   }
   // }
+
+  // _gatherStrings(obj);
+  // return out;
+
+  // return [];
+
+
+  // return [...Object.values(obj).map(value => {
+  //   if (typeof value === "object") return gatherStrings(value);
+  //   if (typeof value === "string") return value;
+  //   return;
+  // })];
+}
+
+/**
+ * even if we gather all strings inside a nested obj
+ * we are not returning this array after we done looping through
+ * that nested obj
+ */
+
+// const values = Object.values(obj);
+
+// for (let value of values){
+
+// }
 
 
 // FURTHER STUDY
