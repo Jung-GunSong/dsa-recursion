@@ -192,7 +192,36 @@ function gatherStrings(obj) {
 /** binarySearch: given a sorted array of numbers, and a value,
  * return true if val is in array, false if not present). */
 
+/**
+ * low pointer: index 0
+ * middle pointer: at array.length/2, determines if target was found
+ * high pointer array.length-1
+ *
+ *
+ * is target value is > or < than high pointer
+ * based that either reassign low or high pointer
+ * then middle will eventually equal target
+ *
+ *
+ * recurse but with smaller and smaller arrays
+ * if/else to return recursive on different halves of the original array
+ * if middle pointer = target, return true
+ * if array length === 0, return false
+ */
+
 function binarySearch(arr, val) {
+
+  if (arr.length === 0) return false;
+
+  const middlePointer = Math.floor(arr.length/2);
+
+  if (arr[middlePointer] === val) return true;
+
+  if(val < arr[middlePointer]){
+    return binarySearch(arr.slice(0, middlePointer), val);
+  }else {
+    return binarySearch(arr.slice(middlePointer+1), val);
+  }
 
 }
 
@@ -201,6 +230,21 @@ function binarySearch(arr, val) {
  * return the index of that value (or -1 if val is not present). */
 
 function binarySearchIndex(arr, val) {
+  if (arr.length === 0) return -1;
+
+  const middlePointer = Math.floor(arr.length/2);
+
+  if (arr[middlePointer] === val) return middlePointer;
+
+  if(val < arr[middlePointer]){
+    return  binarySearchIndex(arr.slice(0, middlePointer), val);
+  }
+
+  if(val > arr[middlePointer] && binarySearchIndex(arr.slice(middlePointer+1), val) === -1){
+    return binarySearchIndex(arr.slice(middlePointer+1), val);
+  }else if (val > arr[middlePointer]){
+    return middlePointer + binarySearchIndex(arr.slice(middlePointer+1), val);
+  }
 
 }
 
